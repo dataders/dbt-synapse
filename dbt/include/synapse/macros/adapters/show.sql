@@ -5,9 +5,8 @@
 
 {# Synapse doesnt support ANSI LIMIT clause #}
 {% macro synapse__get_limit_subquery_sql(sql, limit) %}
-{%- set warn = "-- limit of " ~ limit ~ " is ignored. Synapse doesn't support the implementation" -%}
-
-{{ warn }}
-{{ sql }}
-
+    select top {{ limit }} *
+    from (
+        {{ sql }}
+    ) as model_limit_subq
 {% endmacro %}
